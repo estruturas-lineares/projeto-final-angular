@@ -1,0 +1,107 @@
+.rc-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: var(--rc-basil);
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+
+.rc-header__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+}
+
+.rc-header__brand {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #fff;
+  text-decoration: none;
+  font-size: 1.15rem;
+  font-weight: 600;
+}
+
+.rc-header__toggle {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 1.4rem;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0.25rem 0.4rem;
+}
+
+.rc-header__nav {
+  display: flex;
+  flex-direction: column;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.28s ease;
+  background: var(--rc-basil-dark);
+}
+
+.rc-header__nav a {
+  color: rgba(255, 255, 255, 0.88);
+  text-decoration: none;
+  padding: 0.85rem 1.25rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  font-weight: 500;
+  display: block;
+}
+
+.rc-header__nav a.is-active {
+  color: var(--rc-mustard);
+}
+
+.rc-header__nav--open {
+  max-height: 480px;
+}
+
+.rc-header__user {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.85rem 1.25rem;
+  gap: 0.75rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.rc-header__user-name {
+  color: #fff;
+  font-size: 0.9rem;
+}
+
+@media (min-width: 768px) {
+  .rc-header__bar {
+    padding: 0.85rem 2rem;
+  }
+  .rc-header__toggle {
+    display: none;
+  }
+  .rc-header__nav {
+    flex-direction: row;
+    align-items: center;
+    max-height: none;
+    overflow: visible;
+    background: transparent;
+    padding: 0 2rem 0 0;
+    gap: 0.25rem;
+    justify-content: flex-end;
+  }
+  .rc-header__nav a {
+    border-top: none;
+    padding: 0.4rem 0.75rem;
+    border-radius: 4px;
+  }
+  .rc-header__nav a:hover {
+    background: rgba(255, 255, 255, 0.08);
+  }
+  .rc-header__user {
+    border-top: none;
+    padding: 0;
+    margin-left: 0.5rem;
+  }
+}

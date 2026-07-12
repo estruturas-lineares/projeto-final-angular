@@ -1,0 +1,60 @@
+.rc-status {
+  text-align: center;
+  padding: 3rem 0;
+  color: var(--rc-ink-soft);
+}
+.rc-detail__header {
+  margin-bottom: 1.25rem;
+}
+.rc-detail__desc {
+  color: var(--rc-ink-soft);
+  max-width: 640px;
+}
+.rc-detail__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  font-size: 0.85rem;
+  color: var(--rc-ink-soft);
+  margin: 0.6rem 0 1rem;
+}
+.rc-detail__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+.rc-detail__cover {
+  width: 100%;
+  max-height: 380px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin: 1.25rem 0;
+}
+.rc-detail__video {
+  margin: 1.5rem 0;
+}
+.rc-detail__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+@media (min-width: 768px) {
+  .rc-detail__grid {
+    grid-template-columns: 1fr 1.4fr;
+  }
+}
+.rc-ingredient-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.rc-steps-list {
+  padding-left: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}

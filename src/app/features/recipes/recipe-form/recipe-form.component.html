@@ -1,0 +1,136 @@
+<form class="card rc-form" [formGroup]="form" (ngSubmit)="submit()">
+  <h1 class="rc-display">{{ isEditMode() ? 'Editar receita' : 'Nova receita' }}</h1>
+
+  <div class="field">
+    <label for="title">Título</label>
+    <input id="title" class="input" [class.is-invalid]="errorFor('title', 'Título')" type="text" formControlName="title" />
+    @if (errorFor('title', 'Título'); as msg) {
+      <span class="field-error">{{ msg }}</span>
+    }
+  </div>
+
+  <div class="field">
+    <label for="description">Descrição</label>
+    <textarea id="description" class="input" rows="3" [class.is-invalid]="errorFor('description', 'Descrição')" formControlName="description"></textarea>
+    @if (errorFor('description', 'Descrição'); as msg) {
+      <span class="field-error">{{ msg }}</span>
+    }
+  </div>
+
+  <div class="rc-form__row">
+    <div class="field">
+      <label for="category">Categoria</label>
+      <select id="category" class="input" formControlName="category">
+        <option value="" disabled>Selecione</option>
+        @for (c of categories; track c) {
+          <option [value]="c">{{ c }}</option>
+        }
+      </select>
+      @if (errorFor('category', 'Categoria'); as msg) {
+        <span class="field-error">{{ msg }}</span>
+      }
+    </div>
+
+    <div class="field">
+      <label for="difficulty">Dificuldade</label>
+      <select id="difficulty" class="input" formControlName="difficulty">
+        <option value="facil">Fácil</option>
+        <option value="medio">Médio</option>
+        <option value="dificil">Difícil</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="rc-form__row">
+    <div class="field">
+      <label for="prepTimeMinutes">Tempo de preparo (min)</label>
+      <input id="prepTimeMinutes" class="input" type="number" min="1" formControlName="prepTimeMinutes" />
+      @if (errorFor('prepTimeMinutes', 'Tempo de preparo'); as msg) {
+        <span class="field-error">{{ msg }}</span>
+      }
+    </div>
+    <div class="field">
+      <label for="servings">Porções</label>
+      <input id="servings" class="input" type="number" min="1" formControlName="servings" />
+      @if (errorFor('servings', 'Porções'); as msg) {
+        <span class="field-error">{{ msg }}</span>
+      }
+    </div>
+  </div>
+
+  <rc-media-uploader label="Foto do prato final" [previewUrl]="coverImagePreview()" (previewUrlChange)="onCoverChange($event)" />
+
+  <div class="field rc-video-field">
+    <label>Vídeo do passo a passo (opcional)</label>
+    @if (videoPreviewUrl()) {
+      <video class="rc-video-preview" [src]="videoPreviewUrl()" controls></video>
+      <button type="button" class="btn btn-outline" (click)="removeVideo()">🗑 Remover vídeo</button>
+    } @else {
+      <input type="file" accept="video/*" (change)="onVideoFileSelected($event)" />
+    }
+  </div>
+
+  <hr class="rc-divider" />
+
+  <div class="rc-form__section-header">
+    <h2 class="rc-display">Ingredientes</h2>
+    <button type="button" class="btn btn-secondary" (click)="addIngredient()">+ Adicionar ingrediente</button>
+  </div>
+
+  <div formArrayName="ingredients" class="rc-dynamic-list">
+    @for (ing of ingredients.controls; track ing; let i = $index) {
+      <div class="rc-dynamic-row" [formGroupName]="i">
+        <div class="field rc-dynamic-row__name">
+          <input class="input" type="text" placeholder="Ingrediente" formControlName="name" />
+          @if (ingredientError(i, 'name', 'Nome'); as msg) {
+            <span class="field-error">{{ msg }}</span>
+          }
+        </div>
+        <div class="field rc-dynamic-row__qty">
+          <input class="input" type="number" step="0.1" placeholder="Qtd." formControlName="quantity" />
+          @if (ingredientError(i, 'quantity', 'Quantidade'); as msg) {
+            <span class="field-error">{{ msg }}</span>
+          }
+        </div>
+        <div class="field rc-dynamic-row__unit">
+          <select class="input" formControlName="unit">
+            @for (u of units; track u) {
+              <option [value]="u">{{ u }}</option>
+            }
+          </select>
+        </div>
+        <button type="button" class="btn-icon rc-dynamic-row__remove" (click)="removeIngredient(i)" aria-label="Remover ingrediente">
+          🗑
+        </button>
+      </div>
+    }
+  </div>
+
+  <hr class="rc-divider" />
+
+  <div class="rc-form__section-header">
+    <h2 class="rc-display">Modo de preparo</h2>
+    <button type="button" class="btn btn-secondary" (click)="addStep()">+ Adicionar passo</button>
+  </div>
+
+  <div formArrayName="steps" class="rc-dynamic-list">
+    @for (step of steps.controls; track step; let i = $index) {
+      <div class="rc-dynamic-row rc-dynamic-row--step" [formGroupName]="i">
+        <span class="badge rc-step-number">{{ i + 1 }}</span>
+        <div class="field rc-dynamic-row__name">
+          <textarea class="input" rows="2" placeholder="Descreva o passo" formControlName="description"></textarea>
+          @if (stepError(i); as msg) {
+            <span class="field-error">{{ msg }}</span>
+          }
+        </div>
+        <button type="button" class="btn-icon rc-dynamic-row__remove" (click)="removeStep(i)" aria-label="Remover passo">
+          🗑
+        </button>
+      </div>
+    }
+  </div>
+
+  <button class="btn btn-primary rc-form__submit" type="submit" [disabled]="saving()">
+    {{ saving() ? 'Salvando...' : isEditMode() ? 'Salvar alterações' : 'Publicar receita' }}
+  </button>
+</form>

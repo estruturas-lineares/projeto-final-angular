@@ -1,0 +1,16 @@
+.rc-profile-page {
+  display: flex;
+  justify-content: center;
+  padding: 1.5rem 0 3rem;
+}
+.rc-profile-form {
+  width: min(92vw, 420px);
+  padding: 1.75rem 1.6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.rc-profile-form__submit {
+  width: 100%;
+  margin-top: 0.6rem;
+}

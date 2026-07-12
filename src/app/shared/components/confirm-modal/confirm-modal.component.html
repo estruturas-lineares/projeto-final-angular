@@ -1,0 +1,20 @@
+@if (open) {
+  <div class="rc-modal-backdrop" [@fade] (click)="onCancel()">
+    <div class="rc-modal card" [@popIn] (click)="$event.stopPropagation()" role="dialog" aria-modal="true">
+      <h2 class="rc-display">{{ title }}</h2>
+      <p>{{ message }}</p>
+      <div class="rc-modal__actions">
+        <button class="btn btn-outline" type="button" (click)="onCancel()">{{ cancelLabel }}</button>
+        <button
+          class="btn"
+          [class.btn-danger]="danger"
+          [class.btn-primary]="!danger"
+          type="button"
+          (click)="onConfirm()"
+        >
+          {{ confirmLabel }}
+        </button>
+      </div>
+    </div>
+  </div>
+}

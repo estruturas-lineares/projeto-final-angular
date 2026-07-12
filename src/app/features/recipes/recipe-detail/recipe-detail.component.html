@@ -1,0 +1,79 @@
+@if (loading()) {
+  <p class="rc-status">Carregando receita...</p>
+} @else if (notFound()) {
+  <p class="rc-status">Receita não encontrada. <a routerLink="/receitas">Voltar para a listagem</a></p>
+} @else {
+  @if (recipe(); as r) {
+  <article class="rc-detail">
+    <div class="rc-detail__header">
+      <span class="badge">{{ difficultyLabel[r.difficulty] }}</span>
+      <h1 class="rc-display">{{ r.title }}</h1>
+      <p class="rc-detail__desc">{{ r.description }}</p>
+
+      <div class="rc-detail__meta">
+        <span>⏱ {{ r.prepTimeMinutes }} min</span>
+        <span>👥 {{ r.servings }} porções</span>
+        <span>👩‍🍳 {{ r.author.name }}</span>
+        <span class="badge">{{ r.category }}</span>
+      </div>
+
+      <div class="rc-detail__actions">
+        <button class="btn" [class.btn-primary]="!r.isFavoritedByMe" [class.btn-secondary]="r.isFavoritedByMe" type="button" (click)="toggleFavorite()">
+          {{ r.isFavoritedByMe ? '❤️ Favoritado' : '🤍 Favoritar' }} ({{ r.favoritesCount }})
+        </button>
+
+        @if (isAuthor()) {
+          <a class="btn btn-outline" [routerLink]="['/receitas', r.id, 'editar']">✏️ Editar</a>
+          <button class="btn btn-danger" type="button" (click)="showDeleteModal.set(true)">🗑 Excluir</button>
+        }
+      </div>
+    </div>
+
+    @if (r.coverImageUrl) {
+      <img class="rc-detail__cover" [src]="r.coverImageUrl" [alt]="r.title" />
+    }
+
+    @if (r.videoUrl) {
+      <div class="rc-detail__video">
+        <h2 class="rc-display">Vídeo do passo a passo</h2>
+        <rc-video-player [src]="r.videoUrl" />
+      </div>
+    }
+
+    <div class="rc-detail__grid">
+      <section>
+        <h2 class="rc-display">Ingredientes</h2>
+        <hr class="rc-divider" />
+        <ul class="rc-ingredient-list">
+          @for (ing of r.ingredients; track ing.id) {
+            <li>
+              <span class="badge">{{ ing.quantity }} {{ ing.unit }}</span>
+              {{ ing.name }}
+            </li>
+          }
+        </ul>
+      </section>
+
+      <section>
+        <h2 class="rc-display">Modo de preparo</h2>
+        <hr class="rc-divider" />
+        <ol class="rc-steps-list">
+          @for (step of r.steps; track step.id) {
+            <li>{{ step.description }}</li>
+          }
+        </ol>
+      </section>
+    </div>
+  </article>
+
+  <rc-confirm-modal
+    [open]="showDeleteModal()"
+    title="Excluir receita"
+    message="Tem certeza que deseja excluir esta receita? Essa ação não pode ser desfeita."
+    confirmLabel="Excluir"
+    [danger]="true"
+    (confirmed)="deleteRecipe()"
+    (cancelled)="showDeleteModal.set(false)"
+  />
+  }
+}

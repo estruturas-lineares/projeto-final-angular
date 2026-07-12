@@ -1,0 +1,28 @@
+<div class="rc-profile-page">
+  <form class="card rc-profile-form" [formGroup]="form" (ngSubmit)="submit()">
+    <h1 class="rc-display">Meu perfil</h1>
+
+    <rc-media-uploader
+      label="Foto de perfil"
+      [previewUrl]="avatarPreview()"
+      (previewUrlChange)="onAvatarChange($event)"
+    />
+
+    <div class="field">
+      <label for="name">Nome</label>
+      <input id="name" class="input" [class.is-invalid]="errorFor('name', 'Nome')" type="text" formControlName="name" />
+      @if (errorFor('name', 'Nome'); as msg) {
+        <span class="field-error">{{ msg }}</span>
+      }
+    </div>
+
+    <div class="field">
+      <label>E-mail</label>
+      <input class="input" type="email" [value]="auth.currentUser()?.email" disabled />
+    </div>
+
+    <button class="btn btn-primary rc-profile-form__submit" type="submit" [disabled]="saving()">
+      {{ saving() ? 'Salvando...' : 'Salvar alterações' }}
+    </button>
+  </form>
+</div>

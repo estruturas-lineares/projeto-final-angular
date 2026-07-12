@@ -1,0 +1,20 @@
+<section>
+  <div class="rc-page-header">
+    <h1 class="rc-display">Minhas receitas</h1>
+    <a class="btn btn-primary" routerLink="/receitas/nova">+ Nova receita</a>
+  </div>
+
+  @if (loading()) {
+    <p class="rc-status">Carregando...</p>
+  } @else if (myRecipes().length === 0) {
+    <p class="rc-status">
+      Você ainda não publicou nenhuma receita. <a routerLink="/receitas/nova">Publicar a primeira</a>
+    </p>
+  } @else {
+    <div class="grid-cards">
+      @for (recipe of myRecipes(); track recipe.id) {
+        <rc-recipe-card [recipe]="recipe" />
+      }
+    </div>
+  }
+</section>

@@ -1,0 +1,45 @@
+<div class="rc-player">
+  <video
+    #videoRef
+    [src]="src"
+    class="rc-player__video"
+    (click)="togglePlay()"
+    (timeupdate)="onTimeUpdate()"
+    (loadedmetadata)="onLoadedMetadata()"
+    (ended)="onEnded()"
+  ></video>
+
+  <div class="rc-player__controls">
+    <button
+      type="button"
+      class="rc-player__btn"
+      (click)="togglePlay()"
+      [attr.aria-label]="playing() ? 'Pausar' : 'Reproduzir'"
+    >
+      {{ playing() ? '⏸' : '▶' }}
+    </button>
+
+    <span class="rc-player__time">{{ formatTime(currentTime()) }}</span>
+
+    <input
+      class="rc-player__slider"
+      type="range"
+      min="0"
+      [max]="duration() || 0"
+      step="0.1"
+      [value]="currentTime()"
+      (input)="seek($event)"
+    />
+
+    <span class="rc-player__time">{{ formatTime(duration()) }}</span>
+
+    <button
+      type="button"
+      class="rc-player__btn"
+      (click)="toggleMute()"
+      [attr.aria-label]="muted() ? 'Ativar som' : 'Silenciar'"
+    >
+      {{ muted() ? '🔇' : '🔊' }}
+    </button>
+  </div>
+</div>

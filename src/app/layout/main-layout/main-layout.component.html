@@ -1,0 +1,6 @@
+<rc-toast-container />
+<rc-header />
+<main class="rc-main" [@routeFade]="getRouteKey(outlet)">
+  <router-outlet #outlet="outlet" />
+</main>
+<rc-footer />

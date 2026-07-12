@@ -1,0 +1,71 @@
+<div class="rc-auth-page">
+  <form class="card rc-auth-form" [formGroup]="form" (ngSubmit)="submit()">
+    <h1 class="rc-display">Criar conta</h1>
+
+    <div class="field">
+      <label for="name">Nome</label>
+      <input
+        id="name"
+        class="input"
+        [class.is-invalid]="errorFor('name', 'Nome')"
+        type="text"
+        formControlName="name"
+        placeholder="Seu nome"
+      />
+      @if (errorFor('name', 'Nome'); as msg) {
+        <span class="field-error">{{ msg }}</span>
+      }
+    </div>
+
+    <div class="field">
+      <label for="email">E-mail</label>
+      <input
+        id="email"
+        class="input"
+        [class.is-invalid]="errorFor('email', 'E-mail')"
+        type="email"
+        formControlName="email"
+        placeholder="voce@email.com"
+      />
+      @if (errorFor('email', 'E-mail'); as msg) {
+        <span class="field-error">{{ msg }}</span>
+      }
+    </div>
+
+    <div class="field">
+      <label for="password">Senha</label>
+      <input
+        id="password"
+        class="input"
+        [class.is-invalid]="errorFor('password', 'Senha')"
+        [type]="hidePassword() ? 'password' : 'text'"
+        formControlName="password"
+        placeholder="Mín. 8 caracteres, maiúscula, número e símbolo"
+      />
+      @if (errorFor('password', 'Senha'); as msg) {
+        <span class="field-error">{{ msg }}</span>
+      }
+    </div>
+
+    <div class="field">
+      <label for="confirmPassword">Confirmar senha</label>
+      <input
+        id="confirmPassword"
+        class="input"
+        [class.is-invalid]="confirmError"
+        [type]="hideConfirm() ? 'password' : 'text'"
+        formControlName="confirmPassword"
+        placeholder="Repita a senha"
+      />
+      @if (confirmError; as msg) {
+        <span class="field-error">{{ msg }}</span>
+      }
+    </div>
+
+    <button class="btn btn-primary rc-auth-form__submit" type="submit" [disabled]="loading()">
+      {{ loading() ? 'Criando conta...' : 'Criar conta' }}
+    </button>
+
+    <p class="rc-auth-form__footer">Já tem conta? <a routerLink="/login">Entrar</a></p>
+  </form>
+</div>

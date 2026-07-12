@@ -1,0 +1,11 @@
+<div class="rc-toasts" role="status" aria-live="polite">
+  @for (toast of toastService.toasts(); track toast.id) {
+    <div class="rc-toast" [class]="'rc-toast--' + toast.type" [@toastAnim]>
+      <span class="rc-toast__icon">{{ iconFor(toast.type) }}</span>
+      <span>{{ toast.message }}</span>
+      <button class="rc-toast__close" type="button" (click)="dismiss(toast.id)" aria-label="Fechar notificação">
+        ✕
+      </button>
+    </div>
+  }
+</div>

@@ -1,0 +1,19 @@
+.rc-auth-page {
+  display: flex;
+  justify-content: center;
+  padding: 1.5rem 0 3rem;
+}
+.rc-auth-form {
+  width: min(92vw, 420px);
+  padding: 1.75rem 1.6rem;
+}
+.rc-auth-form__submit {
+  width: 100%;
+  margin-top: 0.4rem;
+}
+.rc-auth-form__footer {
+  text-align: center;
+  font-size: 0.85rem;
+  margin-top: 1.1rem;
+  color: var(--rc-ink-soft);
+}

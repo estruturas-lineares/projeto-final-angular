@@ -1,0 +1,24 @@
+<div class="rc-uploader">
+  <span class="rc-uploader__label">{{ label }}</span>
+
+  <label
+    class="rc-uploader__dropzone"
+    [class.rc-uploader__dropzone--drag]="dragOver()"
+    [class.rc-uploader__dropzone--has-image]="previewUrl"
+    (dragover)="onDragOver($event)"
+    (dragleave)="onDragLeave()"
+    (drop)="onDrop($event)"
+  >
+    @if (previewUrl) {
+      <img [src]="previewUrl" alt="Pré-visualização da imagem" class="rc-uploader__preview" />
+      <button type="button" class="rc-uploader__remove" (click)="removeImage(); $event.preventDefault()">
+        🗑 Remover
+      </button>
+    } @else {
+      <span class="rc-uploader__icon">📷</span>
+      <span>Arraste uma imagem aqui ou clique para escolher</span>
+      <span class="rc-uploader__hint">PNG ou JPG, até 5MB</span>
+    }
+    <input type="file" accept="image/*" hidden (change)="onFileSelected($event)" />
+  </label>
+</div>

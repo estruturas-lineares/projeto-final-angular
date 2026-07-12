@@ -1,0 +1,30 @@
+<a class="card rc-recipe-card" [routerLink]="['/receitas', recipe.id]">
+  <div class="rc-recipe-card__media">
+    @if (recipe.coverImageUrl) {
+      <img [src]="recipe.coverImageUrl" [alt]="recipe.title" loading="lazy" />
+    } @else {
+      <div class="rc-recipe-card__placeholder">🍽️</div>
+    }
+    <span class="rc-recipe-card__badge badge">{{ difficultyLabel[recipe.difficulty] }}</span>
+    <button
+      class="rc-recipe-card__fav btn-icon"
+      type="button"
+      [attr.aria-pressed]="recipe.isFavoritedByMe"
+      aria-label="Favoritar receita"
+      (click)="onFavoriteClick($event)"
+    >
+      {{ recipe.isFavoritedByMe ? '❤️' : '🤍' }}
+    </button>
+  </div>
+
+  <div class="rc-recipe-card__body">
+    <h3 class="rc-display">{{ recipe.title }}</h3>
+    <p class="rc-recipe-card__desc">{{ recipe.description }}</p>
+
+    <div class="rc-recipe-card__meta">
+      <span>⏱ {{ recipe.prepTimeMinutes }} min</span>
+      <span>👥 {{ recipe.servings }} porções</span>
+      <span class="badge">{{ recipe.category }}</span>
+    </div>
+  </div>
+</a>

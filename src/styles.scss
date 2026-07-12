@@ -1,0 +1,237 @@
+/* =========================================================
+   Design System "Caderno de Cozinha" — CSS puro, sem lib de UI.
+   Tokens de cor/tipografia + um punhado de classes utilitárias
+   (.btn, .input, .card, .badge...) usadas de forma consistente
+   em toda a aplicação.
+   ========================================================= */
+
+:root {
+  --rc-paper: #f5f1e6;
+  --rc-paper-alt: #ece6d6;
+  --rc-ink: #2b2620;
+  --rc-ink-soft: #5b5346;
+  --rc-basil: #2f4b3c;
+  --rc-basil-dark: #1e3129;
+  --rc-mustard: #e8a33d;
+  --rc-brick: #b23a2e;
+  --rc-line: rgba(43, 38, 32, 0.16);
+
+  --rc-font-display: 'Fraunces', 'Georgia', serif;
+  --rc-font-body: 'Work Sans', 'Helvetica Neue', sans-serif;
+  --rc-font-mono: 'IBM Plex Mono', 'Courier New', monospace;
+
+  --rc-radius: 6px;
+  --rc-shadow: 0 1px 2px rgba(43, 38, 32, 0.06), 0 4px 12px rgba(43, 38, 32, 0.08);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--rc-font-body);
+  background: var(--rc-paper);
+  color: var(--rc-ink);
+}
+
+h1,
+h2,
+h3,
+.rc-display {
+  font-family: var(--rc-font-display);
+  letter-spacing: -0.01em;
+  margin: 0 0 0.4rem;
+}
+
+p {
+  line-height: 1.5;
+}
+
+a {
+  color: inherit;
+}
+
+hr.rc-divider {
+  border: none;
+  border-top: 2px dashed var(--rc-line);
+  margin: 1rem 0;
+}
+
+/* ---- Cartão base ---- */
+.card {
+  background: #fff;
+  border-radius: var(--rc-radius);
+  box-shadow: var(--rc-shadow);
+}
+
+/* ---- Botões ---- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  font-family: var(--rc-font-body);
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 0.55rem 1.1rem;
+  border-radius: var(--rc-radius);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: transform 0.12s ease, filter 0.12s ease, background 0.12s ease;
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  &:not(:disabled):hover {
+    filter: brightness(0.95);
+  }
+  &:not(:disabled):active {
+    transform: scale(0.98);
+  }
+}
+
+.btn-primary {
+  background: var(--rc-basil);
+  color: #fff;
+}
+
+.btn-secondary {
+  background: var(--rc-mustard);
+  color: var(--rc-ink);
+}
+
+.btn-outline {
+  background: transparent;
+  border-color: var(--rc-line);
+  color: var(--rc-ink);
+}
+
+.btn-danger {
+  background: var(--rc-brick);
+  color: #fff;
+}
+
+.btn-icon {
+  padding: 0.45rem;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.85);
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+}
+
+/* ---- Campos de formulário ---- */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  margin-bottom: 1rem;
+
+  label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--rc-ink-soft);
+  }
+}
+
+.input,
+select.input,
+textarea.input {
+  font-family: var(--rc-font-body);
+  font-size: 0.95rem;
+  padding: 0.6rem 0.7rem;
+  border-radius: 4px;
+  border: 1px solid var(--rc-line);
+  background: #fff;
+  color: var(--rc-ink);
+  width: 100%;
+
+  &:focus {
+    outline: none;
+    border-color: var(--rc-basil);
+    box-shadow: 0 0 0 3px rgba(47, 75, 60, 0.15);
+  }
+
+  &.is-invalid {
+    border-color: var(--rc-brick);
+  }
+}
+
+.field-error {
+  font-size: 0.78rem;
+  color: var(--rc-brick);
+}
+
+/* ---- Badge / tag de quantidade (motivo "ticket de cozinha") ---- */
+.badge {
+  font-family: var(--rc-font-mono);
+  font-size: 0.72rem;
+  background: var(--rc-paper-alt);
+  border: 1px solid var(--rc-line);
+  border-radius: 3px;
+  padding: 2px 8px;
+  color: var(--rc-ink-soft);
+  white-space: nowrap;
+}
+
+/* ---- Layout utilitário ---- */
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.grid-cards {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+@media (min-width: 640px) {
+  .grid-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 960px) {
+  .grid-cards {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* ---- Foco visível / acessibilidade ---- */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--rc-mustard);
+  outline-offset: 2px;
+}
+
+/* ---- Scrollbar discreta ---- */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--rc-line);
+  border-radius: 6px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}

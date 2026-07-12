@@ -1,0 +1,46 @@
+<section>
+  <h1 class="rc-display">Explorar receitas</h1>
+
+  <div class="rc-filters">
+    <input
+      class="input"
+      type="search"
+      placeholder="Buscar por título..."
+      [ngModel]="search()"
+      (ngModelChange)="onSearchChange($event)"
+    />
+    <select class="input" [ngModel]="category()" (ngModelChange)="onCategoryChange($event)">
+      <option value="">Todas as categorias</option>
+      @for (c of categories; track c) {
+        <option [value]="c">{{ c }}</option>
+      }
+    </select>
+  </div>
+
+  @if (recipeService.loading()) {
+    <p class="rc-status">Carregando receitas...</p>
+  } @else if (recipeService.isEmpty()) {
+    <p class="rc-status">Nenhuma receita encontrada com esses filtros.</p>
+  } @else {
+    <div class="grid-cards">
+      @for (recipe of recipeService.recipes(); track recipe.id) {
+        <rc-recipe-card [recipe]="recipe" (favoriteToggled)="toggleFavorite($event)" />
+      }
+    </div>
+
+    <div class="rc-pagination">
+      <button class="btn btn-outline" type="button" [disabled]="page() <= 1" (click)="prevPage()">
+        ← Anterior
+      </button>
+      <span class="badge">Página {{ page() }} de {{ totalPages() }}</span>
+      <button
+        class="btn btn-outline"
+        type="button"
+        [disabled]="page() >= totalPages()"
+        (click)="nextPage()"
+      >
+        Próxima →
+      </button>
+    </div>
+  }
+</section>

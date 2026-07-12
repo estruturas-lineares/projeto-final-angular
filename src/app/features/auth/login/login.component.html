@@ -1,0 +1,49 @@
+<div class="rc-auth-page">
+  <form class="card rc-auth-form" [formGroup]="form" (ngSubmit)="submit()">
+    <h1 class="rc-display">Entrar</h1>
+    <p class="rc-auth-form__hint">Use <strong>ana&#64;exemplo.com</strong> / <strong>Senha&#64;123</strong> para testar.</p>
+
+    <div class="field">
+      <label for="email">E-mail</label>
+      <input
+        id="email"
+        class="input"
+        [class.is-invalid]="errorFor('email', 'E-mail')"
+        type="email"
+        formControlName="email"
+        placeholder="voce@email.com"
+      />
+      @if (errorFor('email', 'E-mail'); as msg) {
+        <span class="field-error">{{ msg }}</span>
+      }
+    </div>
+
+    <div class="field">
+      <label for="password">Senha</label>
+      <div class="rc-password-field">
+        <input
+          id="password"
+          class="input"
+          [class.is-invalid]="errorFor('password', 'Senha')"
+          [type]="hidePassword() ? 'password' : 'text'"
+          formControlName="password"
+          placeholder="••••••••"
+        />
+        <button type="button" class="rc-password-toggle" (click)="hidePassword.set(!hidePassword())">
+          {{ hidePassword() ? '👁' : '🙈' }}
+        </button>
+      </div>
+      @if (errorFor('password', 'Senha'); as msg) {
+        <span class="field-error">{{ msg }}</span>
+      }
+    </div>
+
+    <button class="btn btn-primary rc-auth-form__submit" type="submit" [disabled]="loading()">
+      {{ loading() ? 'Entrando...' : 'Entrar' }}
+    </button>
+
+    <p class="rc-auth-form__footer">
+      Ainda não tem conta? <a routerLink="/cadastro">Criar conta</a>
+    </p>
+  </form>
+</div>
