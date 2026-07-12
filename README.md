@@ -76,16 +76,6 @@ src/
       profile/             # edição de perfil
 ```
 
-## Integração com o back-end real
-
-1. `src/environments/environment.ts` → aponte `apiUrl` para a API real e
-   troque `useMockBackend` para `false`.
-2. Pronto — nenhum componente muda, pois tudo já fala `HttpClient` de
-   verdade.
-
-O contrato de rotas esperado está documentado no topo de
-`src/app/core/mocks/mock-backend.interceptor.ts` (todas as rotas que o
-back-end precisa implementar) e nos tipos em `src/app/core/models/*.ts`.
 
 ## Requisitos do trabalho — onde cada um foi atendido
 
