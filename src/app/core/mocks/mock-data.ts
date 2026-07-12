@@ -24,7 +24,7 @@ export const SEED_RECIPES: Recipe[] = [
     description:
       'Um clássico caseiro: nhoque macio de batata acompanhado de um molho de tomate lento, aromatizado com manjericão fresco.',
     category: 'Massas',
-    difficulty: 'medio',
+    difficulty: 'medium',
     prepTimeMinutes: 70,
     servings: 4,
     coverImageUrl:
@@ -54,7 +54,7 @@ export const SEED_RECIPES: Recipe[] = [
     description:
       'Receita leve e colorida, ótima para o almoço da semana. Fácil de adaptar aos vegetais que você tiver em casa.',
     category: 'Saudável',
-    difficulty: 'facil',
+    difficulty: 'easy',
     prepTimeMinutes: 35,
     servings: 2,
     coverImageUrl:

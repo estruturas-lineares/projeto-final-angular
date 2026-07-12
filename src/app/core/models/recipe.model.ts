@@ -1,4 +1,4 @@
-export type RecipeDifficulty = 'facil' | 'medio' | 'dificil';
+export type RecipeDifficulty = 'easy' | 'medium' | 'hard';
 
 export interface Ingredient {
   id?: string;
@@ -60,8 +60,8 @@ export interface RecipeListParams {
 }
 
 export interface PagedResult<T> {
-  items: T[];
-  total: number;
-  page: number;
-  pageSize: number;
+  results: T[];
+  count: number;
+  previousPage: string | null;
+  nextPage: string | null;
 }
