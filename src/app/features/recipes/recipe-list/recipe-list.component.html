@@ -8,6 +8,8 @@
       placeholder="Buscar por título..."
       [ngModel]="search()"
       (ngModelChange)="onSearchChange($event)"
+
+      (keydown.enter)="submitSearch()"
     />
     <select class="input" [ngModel]="category()" (ngModelChange)="onCategoryChange($event)">
       <option value="">Todas as categorias</option>

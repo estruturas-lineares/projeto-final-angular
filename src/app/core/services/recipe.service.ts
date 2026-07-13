@@ -40,6 +40,20 @@ export class RecipeService {
     );
   }
 
+  search(query: string): Observable<PagedResult<Recipe>>{
+    this._loading.set(true);
+    return this.http.get<PagedResult<Recipe>>(`${this.baseUrl}/search/${query}`).pipe(
+      tap({
+        next: (res) => {
+          this._recipes.set(res.results);
+          this._total.set(res.count);
+          this._loading.set(false);
+        },
+        error: () => this._loading.set(false),
+      })
+    );
+  }
+
   getById(id: string): Observable<Recipe> {
     return this.http.get<Recipe>(`${this.baseUrl}/${id}`);
   }

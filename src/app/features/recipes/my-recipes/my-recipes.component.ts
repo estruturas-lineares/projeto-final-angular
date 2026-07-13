@@ -20,8 +20,8 @@ export class MyRecipesComponent {
   readonly myRecipes = signal<Recipe[]>([]);
 
   ngOnInit() : void{
-    const authorId = this.auth.currentUser()?.id;
-    this.recipeService.list({ authorId, pageSize: 50 }).subscribe({
+    const author = this.auth.currentUser()?.id;
+    this.recipeService.list({ author, pageSize: 50 }).subscribe({
       next: (res) => {
         this.myRecipes.set(res.results);
         this.loading.set(false);

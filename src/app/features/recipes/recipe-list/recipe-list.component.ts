@@ -33,7 +33,6 @@ export class RecipeListComponent {
 
   constructor() {
     const queryParams = computed(() => ({
-      search: this.search(),
       category: this.category(),
       page: this.page(),
       pageSize: this.pageSize(),
@@ -52,6 +51,16 @@ export class RecipeListComponent {
   onSearchChange(value: string): void {
     this.search.set(value);
     this.page.set(1);
+  }
+
+  submitSearch() {
+    const searchTerm = this.search();
+
+    this.recipeService.search(searchTerm).subscribe({
+      next: (data) => {
+        console.log(`DADOS >: ${data}`)
+      }
+    })
   }
 
   onCategoryChange(value: string): void {

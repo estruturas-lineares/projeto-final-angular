@@ -56,7 +56,8 @@ export interface RecipeListParams {
   pageSize?: number;
   search?: string;
   category?: string;
-  authorId?: string;
+  author?: string;
+  difficulty?: string;
 }
 
 export interface PagedResult<T> {
