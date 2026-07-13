@@ -41,7 +41,6 @@ export class SupabaseService {
 
     const { data } = this.supabase.storage.from(bucket).getPublicUrl(path);
 
-    console.log(data)
     return data.publicUrl;
   }
 

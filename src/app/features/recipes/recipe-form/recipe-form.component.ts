@@ -154,9 +154,23 @@ export class RecipeFormComponent implements OnChanges {
     this.form.patchValue({ videoUrl: objectUrl });
   }
 
-  removeVideo(): void {
-    this.videoPreviewUrl.set(null);
-    this.form.patchValue({ videoUrl: '' });
+  async removeVideo(): Promise<void> {
+    console.log(this.videoPreviewUrl())
+
+    const request$ = this.recipeService.deleteVideoTutorial(this.id!);
+    
+    request$.subscribe({
+      next: (recipe) => {
+        this.saving.set(false);
+        this.toast.success('Vídeo removido!');
+        this.videoPreviewUrl.set(null);
+        this.form.patchValue({ videoUrl: '' });
+      },
+      error: () => {
+        this.saving.set(false);
+        this.toast.error('Não foi possível remover o vídeo.');
+      },
+    });
   }
 
   submit(): void {

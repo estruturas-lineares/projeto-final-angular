@@ -65,4 +65,10 @@ export class RecipeService {
   patchLocalRecipe(updated: Recipe): void {
     this._recipes.update((list) => list.map((r) => (r.id === updated.id ? updated : r)));
   }
+
+  deleteVideoTutorial(id: string){
+    return this.http
+      .delete<void>(`${this.baseUrl}/${id}/video/`)
+      .pipe(tap(() => this._recipes.update((list) => list.filter((r) => r.id !== id))));
+  }
 }
