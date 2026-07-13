@@ -36,7 +36,6 @@ export const routes: Routes = [
       },
 
       // ---- Rotas protegidas (exigem autenticação) ----
-      // IMPORTANTE: 'receitas/nova' precisa vir antes de 'receitas/:id'
       {
         path: 'receitas/nova',
         canActivate: [authGuard],
@@ -65,7 +64,6 @@ export const routes: Routes = [
         title: 'Meu perfil',
       },
 
-      // ---- Rota pública dinâmica (precisa vir depois das rotas literais acima) ----
       {
         path: 'receitas/:id',
         loadComponent: () =>

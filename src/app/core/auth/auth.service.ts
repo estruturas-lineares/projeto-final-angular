@@ -42,10 +42,10 @@ export class AuthService {
     );
   }
 
-  refreshAccessToken(): Observable<{ access: string; refresh?: string }> {
+  refreshAccessToken(): Observable<{ access: string; refresh: string }> {
     const refresh = this._refreshToken();
     return this.http
-      .post<{ access: string; refresh?: string }>(`${environment.apiUrl}/auth/login/refresh/`, { refresh })
+      .post<{ access: string; refresh: string }>(`${environment.apiUrl}/auth/login/refresh/`, { refresh })
       .pipe(
         tap((res) => {
           localStorage.setItem(STORAGE_TOKEN_KEY, res.access);
@@ -74,6 +74,7 @@ export class AuthService {
   private persistSession(res: AuthResponse): void {
     localStorage.setItem(STORAGE_TOKEN_KEY, res.access);
     localStorage.setItem(STORAGE_USER_KEY, JSON.stringify(res.user));
+    localStorage.setItem(STORAGE_REFRESH_KEY, JSON.stringify(res.refresh));
     this._token.set(res.access);
     this._currentUser.set(res.user);
   }
