@@ -15,7 +15,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 
   return next(authReq).pipe(
     catchError((error: HttpErrorResponse) => {
-      // Não tenta refresh nas próprias rotas de auth (evita loop infinito)
+      // não tenta refresh nas próprias rotas de auth
       const isAuthRoute = req.url.includes('/auth/login/');
       if (error.status !== 401 || isAuthRoute) {
         return throwError(() => error);
@@ -40,7 +40,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
         );
       }
 
-      // Se um refresh já está em andamento, espera ele terminar e reusa o token novo
+     
       return refreshedToken$.pipe(
         filter((newToken) => newToken !== null),
         take(1),
