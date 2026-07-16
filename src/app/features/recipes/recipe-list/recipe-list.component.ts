@@ -18,7 +18,6 @@ const CATEGORIES = ['Massas', 'Saudável', 'Sobremesas', 'Carnes', 'Vegano', 'Be
   imports: [FormsModule, RecipeCardComponent],
 })
 export class RecipeListComponent {
-  private destroyRef = inject(DestroyRef);
   private auth = inject(AuthService);
   private toast = inject(ToastService);
   readonly recipeService = inject(RecipeService);
@@ -43,7 +42,6 @@ export class RecipeListComponent {
         debounceTime(300),
         distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
         switchMap((params) => this.recipeService.list(params)),
-        takeUntilDestroyed(this.destroyRef)
       )
       .subscribe();
   }
@@ -56,11 +54,7 @@ export class RecipeListComponent {
   submitSearch() {
     const searchTerm = this.search();
 
-    this.recipeService.search(searchTerm).subscribe({
-      next: (data) => {
-        console.log(`DADOS >: ${data}`)
-      }
-    })
+    this.recipeService.search(searchTerm).subscribe({})
   }
 
   onCategoryChange(value: string): void {

@@ -34,7 +34,7 @@ export class MainLayoutComponent {
     while (route.firstChild) {
       route = route.firstChild;
     }
-    // usa `data.animation` se você definir nas rotas, senão cai pro path da URL
+    
     return route.snapshot.data['animation'] ?? route.snapshot.url.map((s) => s.path).join('/');
   }
   

@@ -15,7 +15,6 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 
   return next(authReq).pipe(
     catchError((error: HttpErrorResponse) => {
-      // não tenta refresh nas próprias rotas de auth
       const isAuthRoute = req.url.includes('/auth/login/');
       if (error.status !== 401 || isAuthRoute) {
         return throwError(() => error);

@@ -7,7 +7,6 @@ export const routes: Routes = [
     path: '',
     component: MainLayoutComponent,
     children: [
-      // ---- Rotas públicas ----
       {
         path: '',
         loadComponent: () => import('./features/home/home.component').then((m) => m.HomeComponent),
@@ -20,7 +19,6 @@ export const routes: Routes = [
         title: 'Explorar receitas',
       },
 
-      // ---- Rotas de visitante (bloqueadas para quem já está logado) ----
       {
         path: 'login',
         canActivate: [guestGuard],
@@ -35,7 +33,6 @@ export const routes: Routes = [
         title: 'Criar conta',
       },
 
-      // ---- Rotas protegidas (exigem autenticação) ----
       {
         path: 'receitas/nova',
         canActivate: [authGuard],
