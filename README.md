@@ -1,9 +1,4 @@
-# Caderno de Receitas — Front-end (Angular 18)
-
-Sem Angular Material (CSS puro) e **com o padrão de arquivos separado por
-componente** que você está acostumada: cada componente tem seu próprio
-`.ts`, `.html` e `.scss` (`templateUrl` / `styleUrl`), como o Angular CLI
-gera por padrão (`ng generate component`).
+# Caderno de Receitas — Front-end
 
 ## Como rodar
 
@@ -12,28 +7,9 @@ npm install
 npm start        # http://localhost:4200
 ```
 
-Usuário de teste (ou crie uma conta pela tela de Cadastro):
-
-```
-email: ana@exemplo.com
-senha: Senha@123
-```
-
-## Estrutura de cada componente
-
-```
-recipe-card/
-  recipe-card.component.ts     # lógica + decorator (templateUrl/styleUrl)
-  recipe-card.component.html   # template
-  recipe-card.component.scss   # estilos
-```
-
-Igual ao que `ng generate component nome` cria.
-
 ## Stack e decisões técnicas
 
-- **Angular 18**, componentes standalone (sem NgModules), mas com
-  `templateUrl`/`styleUrl` em arquivos separados.
+- **Angular 18**
 - **Sem biblioteca de UI** — Design System próprio em `src/styles.scss`:
   tokens (`--rc-*`) + classes utilitárias (`.btn`, `.card`, `.field`,
   `.badge`, `.grid-cards`) reaproveitadas em todos os componentes.

@@ -7,6 +7,7 @@ import { RecipeService } from '../../../core/services/recipe.service';
 import { ToastService } from '../../../core/services/toast.service';
 import { firstErrorMessage } from '../../../core/validators/error-messages.util';
 import { MediaUploaderComponent } from '../../../shared/components/media-uploader/media-uploader.component';
+import { SupabaseService } from '../../../core/services/supabase.service';
 
 const CATEGORIES = ['Massas', 'Saudável', 'Sobremesas', 'Carnes', 'Vegano', 'Bebidas'];
 const UNITS = ['g', 'kg', 'ml', 'l', 'unid', 'tsp', 'tbsp', 'cup', 'pitada'];
@@ -19,11 +20,11 @@ const UNITS = ['g', 'kg', 'ml', 'l', 'unid', 'tsp', 'tbsp', 'cup', 'pitada'];
   imports: [ReactiveFormsModule, MediaUploaderComponent],
 })
 export class RecipeFormComponent implements OnChanges {
-  /** Presente somente na rota de edição: /receitas/:id/editar */
   @Input() id?: string;
 
   private fb = inject(FormBuilder);
   private recipeService = inject(RecipeService);
+  private supabaseService = inject(SupabaseService);
   private toast = inject(ToastService);
   private router = inject(Router);
 
@@ -147,17 +148,29 @@ export class RecipeFormComponent implements OnChanges {
       this.toast.error('Selecione um arquivo de vídeo válido.');
       return;
     }
-    // Nota: em produção, este arquivo deve ser enviado via multipart/form-data
-    // para um endpoint de upload do back-end, que devolve a URL definitiva.
-    // Aqui usamos um object URL local apenas para pré-visualização na demo.
-    const objectUrl = URL.createObjectURL(file);
+
+    const objectUrl = await this.supabaseService.uploadRecipeVideo(file);
     this.videoPreviewUrl.set(objectUrl);
     this.form.patchValue({ videoUrl: objectUrl });
   }
 
-  removeVideo(): void {
-    this.videoPreviewUrl.set(null);
-    this.form.patchValue({ videoUrl: '' });
+  async removeVideo(): Promise<void> {
+    console.log(this.videoPreviewUrl())
+
+    const request$ = this.recipeService.deleteVideoTutorial(this.id!);
+    
+    request$.subscribe({
+      next: (recipe) => {
+        this.saving.set(false);
+        this.toast.success('Vídeo removido!');
+        this.videoPreviewUrl.set(null);
+        this.form.patchValue({ videoUrl: '' });
+      },
+      error: () => {
+        this.saving.set(false);
+        this.toast.error('Não foi possível remover o vídeo.');
+      },
+    });
   }
 
   submit(): void {

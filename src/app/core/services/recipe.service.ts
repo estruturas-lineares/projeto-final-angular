@@ -31,8 +31,22 @@ export class RecipeService {
     return this.http.get<PagedResult<Recipe>>(this.baseUrl, { params: httpParams }).pipe(
       tap({
         next: (res) => {
-          this._recipes.set(res.items);
-          this._total.set(res.total);
+          this._recipes.set(res.results);
+          this._total.set(res.count);
+          this._loading.set(false);
+        },
+        error: () => this._loading.set(false),
+      })
+    );
+  }
+
+  search(query: string): Observable<PagedResult<Recipe>>{
+    this._loading.set(true);
+    return this.http.get<PagedResult<Recipe>>(`${this.baseUrl}/search/${query}`).pipe(
+      tap({
+        next: (res) => {
+          this._recipes.set(res.results);
+          this._total.set(res.count);
           this._loading.set(false);
         },
         error: () => this._loading.set(false),
@@ -45,24 +59,30 @@ export class RecipeService {
   }
 
   create(payload: RecipePayload): Observable<Recipe> {
-    return this.http.post<Recipe>(this.baseUrl, payload);
+    return this.http.post<Recipe>(`${this.baseUrl}/`, payload);
   }
 
   update(id: string, payload: RecipePayload): Observable<Recipe> {
-    return this.http.put<Recipe>(`${this.baseUrl}/${id}`, payload);
+    return this.http.put<Recipe>(`${this.baseUrl}/${id}/`, payload);
   }
 
   delete(id: string): Observable<void> {
     return this.http
-      .delete<void>(`${this.baseUrl}/${id}`)
+      .delete<void>(`${this.baseUrl}/${id}/`)
       .pipe(tap(() => this._recipes.update((list) => list.filter((r) => r.id !== id))));
   }
 
   toggleFavorite(id: string): Observable<Recipe> {
-    return this.http.post<Recipe>(`${this.baseUrl}/${id}/favorite`, {});
+    return this.http.post<Recipe>(`${this.baseUrl}/${id}/favorite/`, {});
   }
 
   patchLocalRecipe(updated: Recipe): void {
     this._recipes.update((list) => list.map((r) => (r.id === updated.id ? updated : r)));
+  }
+
+  deleteVideoTutorial(id: string){
+    return this.http
+      .delete<void>(`${this.baseUrl}/${id}/video/`)
+      .pipe(tap(() => this._recipes.update((list) => list.filter((r) => r.id !== id))));
   }
 }

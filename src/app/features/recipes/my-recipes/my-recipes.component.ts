@@ -15,15 +15,15 @@ import { RecipeCardComponent } from '../../../shared/components/recipe-card/reci
 export class MyRecipesComponent {
   private recipeService = inject(RecipeService);
   private auth = inject(AuthService);
-
+  
   readonly loading = signal(true);
   readonly myRecipes = signal<Recipe[]>([]);
 
-  constructor() {
-    const authorId = this.auth.currentUser()?.id;
-    this.recipeService.list({ authorId, pageSize: 50 }).subscribe({
+  ngOnInit() : void{
+    const author = this.auth.currentUser()?.id;
+    this.recipeService.list({ author, pageSize: 50 }).subscribe({
       next: (res) => {
-        this.myRecipes.set(res.items);
+        this.myRecipes.set(res.results);
         this.loading.set(false);
       },
       error: () => this.loading.set(false),

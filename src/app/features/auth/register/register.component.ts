@@ -53,9 +53,9 @@ export class RegisterComponent {
       return;
     }
     this.loading.set(true);
-    const { name, email, password } = this.form.getRawValue();
+    const { name, email, password, confirmPassword } = this.form.getRawValue();
 
-    this.auth.register({ name: name!, email: email!, password: password! }).subscribe({
+    this.auth.register({ name: name!, email: email!, password: password!, confirmPassword: confirmPassword! }).subscribe({
       next: () => {
         this.loading.set(false);
         this.toast.success('Conta criada com sucesso! Bem-vindo(a).');

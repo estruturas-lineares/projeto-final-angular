@@ -61,7 +61,13 @@ export class RecipeDetailComponent implements OnChanges {
     const current = this.recipe();
     if (!current) return;
     this.recipeService.toggleFavorite(current.id).subscribe({
-      next: (updated) => this.recipe.set(updated),
+      next: (data) => {
+        let recipeObj = this.recipe()!;
+        recipeObj.favoritesCount=data.favoritesCount;
+        recipeObj.isFavoritedByMe=data.isFavoritedByMe;
+
+        this.recipe.set(recipeObj);
+      },
       error: () => this.toast.error('Não foi possível favoritar agora.'),
     });
   }

@@ -10,15 +10,15 @@ import { MockUserRecord, SEED_RECIPES, SEED_USERS } from './mock-data';
 /**
  * Simula, no navegador, os endpoints que o back-end real deve implementar:
  *
- *   POST   /api/auth/login          -> AuthResponse
- *   POST   /api/auth/register       -> AuthResponse
+ *   POST   /api/auth/login/          -> AuthResponse
+ *   POST   /api/auth/register/       -> AuthResponse
  *   PUT    /api/users/me            -> User
  *   GET    /api/recipes             -> PagedResult<Recipe>
  *   GET    /api/recipes/:id         -> Recipe
- *   POST   /api/recipes             -> Recipe
+ *   POST   /api/recipes/             -> Recipe
  *   PUT    /api/recipes/:id         -> Recipe
  *   DELETE /api/recipes/:id         -> void
- *   POST   /api/recipes/:id/favorite-> Recipe
+ *   POST   /api/recipes/:id/favorite/ -> Recipe
  *
  * Quando a API real estiver pronta: `environment.useMockBackend = false`.
  * Nenhum componente ou serviço precisa ser alterado.
@@ -77,10 +77,10 @@ export const mockBackendInterceptor: HttpInterceptorFn = (req, next) => {
     const found = users.find((u) => u.email === email && u.password === password);
     if (!found) return fail(401, 'E-mail ou senha inválidos.');
     const { password: _pw, ...user } = found;
-    return ok<AuthResponse>({ user, token: fakeToken(user.id) });
+    return ok<AuthResponse>({ user, access: fakeToken(user.id) });
   }
 
-  if (path === '/auth/register' && req.method === 'POST') {
+  if (path === '/auth/register/' && req.method === 'POST') {
     const { name, email, password } = req.body as RegisterPayload;
     const users = loadUsers();
     if (users.some((u) => u.email === email)) {
@@ -97,7 +97,7 @@ export const mockBackendInterceptor: HttpInterceptorFn = (req, next) => {
     };
     saveUsers([...users, newUser]);
     const { password: _pw, ...user } = newUser;
-    return ok<AuthResponse>({ user, token: fakeToken(user.id) }, 201);
+    return ok<AuthResponse>({ user, access: fakeToken(user.id) }, 201);
   }
 
   if (path === '/users/me' && req.method === 'PUT') {
@@ -136,10 +136,12 @@ export const mockBackendInterceptor: HttpInterceptorFn = (req, next) => {
     if (category) recipes = recipes.filter((r) => r.category === category);
     if (authorId) recipes = recipes.filter((r) => r.author.id === authorId);
 
-    const total = recipes.length;
+    const count = recipes.length;
     const start = (page - 1) * pageSize;
-    const items = recipes.slice(start, start + pageSize);
-    return ok<PagedResult<Recipe>>({ items, total, page, pageSize });
+    const results = recipes.slice(start, start + pageSize);
+    const previousPage = "none";
+    const nextPage = "none";
+    return ok<PagedResult<Recipe>>({ results, count, previousPage ,  nextPage});
   }
 
   if (path === '/recipes' && req.method === 'POST') {
